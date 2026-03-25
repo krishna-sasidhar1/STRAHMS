@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRAHMS - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Include Chart.js for Weekly Usage Report -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>STRAHMS</h2>
+                <p>Health Monitoring</p>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-target="section-today">
+                    <span>⏱️</span> Today's Screen Time
+                </button>
+                <button class="nav-btn" data-target="section-weekly">
+                    <span>📊</span> Weekly Usage Report
+                </button>
+                <button class="nav-btn" data-target="section-profile">
+                    <span>👤</span> User Personalization
+                </button>
+                <button class="nav-btn" data-target="section-tips">
+                    <span>💡</span> Health Tips
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn btn-outline" style="width: 100%;">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Section 1: Today's Screen Time -->
+            <section id="section-today" class="content-section active">
+                <header class="section-header">
+                    <h1>Today's Screen Time</h1>
+                    <p>Live tracking of your device usage today.</p>
+                </header>
+                
+                <div class="card metrics-card">
+                    <div class="timer-display">
+                        <div class="timer-circle" id="timer-circle">
+                            <h2 id="live-timer">00:00:00</h2>
+                            <p>Current Session</p>
+                        </div>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="btn-start" class="btn btn-primary">Start Tracking</button>
+                        <button id="btn-stop" class="btn btn-outline" disabled>Stop Tracking</button>
+                    </div>
+                </div>
+
+                <div class="card info-card">
+                    <h3>Today's Total: <span id="today-total-hours">0h 0m</span></h3>
+                    <div class="risk-indicator" id="risk-indicator">
+                        <div class="risk-badge" id="risk-badge">Low Risk</div>
+                        <p id="risk-message">Healthy usage. Keep it up!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Weekly Usage Report -->
+            <section id="section-weekly" class="content-section">
+                <header class="section-header">
+                    <h1>Weekly Usage Report</h1>
+                    <p>Review your screen time habits over the past 7 days.</p>
+                </header>
+                
+                <div class="card chart-card">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+                
+                <div class="summary-cards">
+                    <div class="card summary-card">
+                        <h3>Weekly Total</h3>
+                        <p id="weekly-total-text">0 hours</p>
+                    </div>
+                    <div class="card summary-card">
+                        <h3>Recommended Limit</h3>
+                        <p id="recommended-limit-text">28 hours</p>
+                    </div>
+                    <div class="card summary-card">
+                        <h3>Difference</h3>
+                        <p id="weekly-difference-text" class="text-success">28h under limit</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: User Personalization -->
+            <section id="section-profile" class="content-section">
+                <header class="section-header">
+                    <h1>User Personalization</h1>
+                    <p>Update your profile and manage screen time recommendations.</p>
+                </header>
+                
+                <div class="card profile-card">
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profile-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" id="profile-age" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Occupation Type</label>
+                            <select id="profile-occupation">
+                                <option value="Student">Student (Higher academic screen allowance)</option>
+                                <option value="Office Worker">Office Worker (Work-related screen usage)</option>
+                                <option value="Normal User">Normal User (Standard usage recommendation)</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <span id="profile-msg" style="margin-left: 10px; color: green; display: none;">Saved!</span>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Section 4: Health Tips & Break Reminder -->
+            <section id="section-tips" class="content-section">
+                <header class="section-header">
+                    <h1>Health Tips & Reminders</h1>
+                    <p>Learn healthier digital habits and manage your breaks.</p>
+                </header>
+                
+                <div class="card tips-grid">
+                    <div class="tip-item">
+                        <h3>👁️ 20-20-20 Rule</h3>
+                        <p>Every 20 minutes, look at something 20 feet away for 20 seconds to prevent eye strain.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h3>🧘 Stretching</h3>
+                        <p>Perform basic neck and shoulder stretches every hour to maintain good posture.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h3>💡 Brightness</h3>
+                        <p>Reduce screen brightness at night and use blue light filters to protect your eyes.</p>
+                    </div>
+                    <div class="tip-item">
+                        <h3>🌙 Sleep hygiene</h3>
+                        <p>Avoid screens at least 1 hour before sleep to improve your sleep quality.</p>
+                    </div>
+                </div>
+
+                <div class="card reminder-settings">
+                    <h3>Break Reminders</h3>
+                    <p>You will automatically be reminded every 45 minutes of continuous tracking.</p>
+                    <p><em>Note: Next reminder in <span id="reminder-countdown">45</span> minutes.</em></p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Break Reminder Modal -->
+    <div id="break-modal" class="modal">
+        <div class="modal-content card">
+            <h2>Time for a break! 🔔</h2>
+            <p>You have been using the screen for 45 minutes continuously. Please take a 5-minute break to rest your eyes and stretch.</p>
+            <div class="modal-actions">
+                <button id="btn-snooze" class="btn btn-outline">Snooze (10 min)</button>
+                <button id="btn-dismiss" class="btn btn-primary">Dismiss</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
